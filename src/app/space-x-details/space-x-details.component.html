@@ -1,0 +1,82 @@
+<h5>SpaceX Launch Programs</h5>
+<div class="block-container">
+  <div class="options-panel">
+    <div class="section">
+      <p>Launch Year</p>
+      <ul class="options">
+        <li *ngFor="let year of spacexYears; let i = index">
+          <input
+            type="radio"
+            name="selYear"
+            [value]="year.val"  
+            [checked]="year.checked"
+            (change)="changeFun()"
+          />
+          <label (click)="addFilter(year)">{{ year.display }}</label>
+        </li>
+      </ul>
+    </div>
+    <div class="section">
+      <p>Successful Launch</p>
+      <ul class="options">
+        <li *ngFor="let launch of launchSuccess; let j = index">
+          <input
+            type="radio"
+            name="successLaunch"
+            value="{{ launch.val }}"
+            [checked]="launch.checked"
+          />
+          <label (click)="addFilter(launch)">{{ launch.display }}</label>
+        </li>
+      </ul>
+    </div>
+    <div class="section">
+      <p>Successful Landing</p>
+      <ul class="options">
+        <li *ngFor="let land of landSuccess; let k = index">
+          <input type="radio" name="successLand" value="{{ land.val }}" [checked]="land.checked"/>
+          <label (click)="addFilter(land)">{{ land.display }}</label>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="content-panel">
+    <div class="list-container" *ngFor="let mission of missionLst">
+      <mat-card class="example-card">
+        <img
+          mat-card-image
+          src="{{ mission.links.mission_patch_small }}"
+          alt="{{ mission.mission_name }}"
+        />
+        <mat-card-content>
+          <p class="title">
+            {{ mission.mission_name }} # {{ mission.flight_number }}
+          </p>
+          <div>
+            <strong
+              >Mission Ids :
+              {{ mission.mission_id.length == 0 ? "-" : "" }}</strong
+            >
+            <div *ngIf="mission.mission_id.length > 0">
+              <ul *ngFor="let id of mission.mission_id">
+                <li>{{ id }}</li>
+              </ul>
+            </div>
+          </div>
+          <div><strong>Launch Year : </strong>{{ mission.launch_year }}</div>
+          <div>
+            <strong>Successful Launch : </strong>{{ mission.launch_success }}
+          </div>
+          <div>
+            <strong>Successful Landing : </strong
+            >{{
+              mission.rocket.first_stage.cores[0].land_success !== null
+                ? mission.rocket.first_stage.cores[0].land_success
+                : "NA"
+            }}
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
